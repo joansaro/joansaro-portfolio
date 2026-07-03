@@ -1,0 +1,35 @@
+---
+// Floating back-to-top button — appears after scrolling down.
+---
+
+<button
+  id="back-to-top"
+  type="button"
+  aria-label="Volver arriba"
+  class="fixed bottom-6 right-6 z-40 inline-flex h-11 w-11 translate-y-4 items-center justify-center rounded-lg border border-strong bg-elevated/80 font-mono text-accent opacity-0 shadow-lg backdrop-blur transition-all duration-300 hover:-translate-y-0.5 hover:border-accent hover:shadow-[0_0_24px_-8px_rgb(var(--accent-glow))] pointer-events-none"
+>
+  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M12 19V5M5 12l7-7 7 7" />
+  </svg>
+</button>
+
+<script>
+  function setupBackToTop() {
+    const btn = document.getElementById('back-to-top');
+    if (!btn || btn.dataset.bound === '1') return;
+    btn.dataset.bound = '1';
+
+    const toggle = () => {
+      const show = window.scrollY > 500;
+      btn.classList.toggle('opacity-0', !show);
+      btn.classList.toggle('translate-y-4', !show);
+      btn.classList.toggle('pointer-events-none', !show);
+    };
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  }
+  setupBackToTop();
+  document.addEventListener('astro:page-load', setupBackToTop);
+</script>

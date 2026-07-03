@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const home = lang === 'es' ? '/' : '/en/';
+---
+
+<BaseLayout title="404 — Joansaro" description={t('notfound.subtitle')}>
+  <section class="relative isolate flex min-h-[80vh] items-center overflow-hidden px-6">
+    <div class="absolute inset-0 -z-10 bg-dot-grid opacity-50" aria-hidden="true"></div>
+    <div class="absolute left-1/2 top-1/2 -z-10 h-[420px] w-[420px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent/15 blur-[120px]" aria-hidden="true"></div>
+
+    <div class="mx-auto max-w-2xl text-center">
+      <p class="reveal mb-6 font-mono text-[10px] uppercase tracking-[0.3em] text-accent">
+        error · {t('notfound.code')}
+      </p>
+
+      <h1 class="reveal reveal-delay-1 text-balance text-7xl font-semibold leading-none tracking-[-0.04em] text-fg sm:text-8xl md:text-9xl">
+        <span class="gradient-text">{t('notfound.code')}</span>
+      </h1>
+
+      <p class="reveal reveal-delay-2 mt-8 text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
+        {t('notfound.title')}
+      </p>
+      <p class="reveal reveal-delay-3 mx-auto mt-3 max-w-md text-fg-muted">
+        {t('notfound.subtitle')}
+      </p>
+
+      <div class="reveal reveal-delay-4 mt-10">
+        <a
+          href={home}
+          class="group inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white shadow-lg shadow-accent/30 transition-all hover:-translate-y-0.5 hover:bg-accent-hover"
+        >
+          <svg class="h-4 w-4 transition-transform group-hover:-translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m12 19-7-7 7-7M19 12H5"/>
+          </svg>
+          {t('notfound.home')}
+        </a>
+      </div>
+
+      <pre class="reveal reveal-delay-5 mx-auto mt-16 max-w-md rounded-xl border border-app bg-elevated/60 p-4 text-left font-mono text-xs text-fg-muted">
+<span class="text-fg-subtle">$</span> <span class="text-accent">find</span> {Astro.url.pathname}
+<span class="text-fg-subtle">find:</span> &apos;{Astro.url.pathname}&apos;: <span class="text-fg">No such file or directory</span></pre>
+    </div>
+  </section>
+</BaseLayout>

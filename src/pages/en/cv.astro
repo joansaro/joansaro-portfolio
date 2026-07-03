@@ -1,0 +1,130 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { profile, timeline } from '../../data/profile';
+import { useTranslations } from '../../i18n/utils';
+const lang = 'en';
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('cv.title')} description={t('cv.summaryText')}>
+  <section class="mx-auto max-w-3xl px-6 py-16">
+    <div class="reveal mb-8 flex flex-wrap items-center justify-between gap-3 print:hidden">
+      <a href="/en/" class="inline-flex items-center gap-2 text-sm text-fg-muted transition-colors hover:text-accent">
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m12 19-7-7 7-7M19 12H5"/>
+        </svg>
+        {t('cv.back')}
+      </a>
+      <a
+        href="/docs/CV_Andres_Santos_EN.pdf"
+        download
+        class="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-[rgb(var(--bg))] transition-all hover:-translate-y-0.5 hover:bg-accent-soft print:hidden"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download PDF
+      </a>
+      <button
+        id="print-cv"
+        type="button"
+        class="group inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white shadow-lg shadow-accent/20 transition-all hover:-translate-y-0.5 hover:bg-accent-hover"
+      >
+        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="6 9 6 2 18 2 18 9"/>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+          <rect x="6" y="14" width="12" height="8"/>
+        </svg>
+        {t('cv.print')}
+      </button>
+    </div>
+
+    <article class="reveal rounded-2xl border border-app bg-elevated p-8 print:border-0 print:bg-transparent print:p-0 sm:p-12">
+      <header class="mb-10 border-b border-app pb-6">
+        <h1 class="text-4xl font-semibold tracking-tight text-fg sm:text-5xl">{profile.fullName}</h1>
+        <p class="mt-2 font-mono text-sm text-accent">Fullstack Developer · {profile.location[lang]}</p>
+        <div class="mt-4 flex flex-wrap gap-4 font-mono text-xs text-fg-muted">
+          <a href={`mailto:${profile.email}`} class="hover:text-accent">{profile.email}</a>
+          <a href={profile.social.github} target="_blank" rel="noopener noreferrer" class="hover:text-accent">github.com/joansaro</          </a>
+          <a href={profile.social.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-accent">LinkedIn</a>
+        </div>
+      </header>
+
+      <section class="mb-8">
+        <h2 class="mb-3 font-mono text-[11px] uppercase tracking-[0.25em] text-accent">{t('cv.summary')}</h2>
+        <p class="text-pretty leading-relaxed text-fg">{t('cv.summaryText')}</p>
+      </section>
+
+      <section class="mb-8">
+        <h2 class="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-accent">{t('experience.section')}</h2>
+        <ul class="space-y-6">
+          {timeline.filter((e) => e.type === 'work').map((e) => (
+            <li>
+              <div class="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 class="text-base font-semibold text-fg">{e.role[lang]} · <span class="text-fg-muted">{e.org}</span></h3>
+                <span class="font-mono text-xs text-fg-subtle">{e.period}</span>
+              </div>
+              <p class="mt-1 text-sm leading-relaxed text-fg-muted">{e.description[lang]}</p>
+              {e.tech && (
+                <p class="mt-2 font-mono text-xs text-fg-subtle">{e.tech.join(' · ')}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section class="mb-8">
+        <h2 class="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-accent">{t('experience.education')}</h2>
+        <ul class="space-y-4">
+          {timeline.filter((e) => e.type === 'education').map((e) => (
+            <li>
+              <div class="flex flex-wrap items-baseline justify-between gap-2">
+                <h3 class="text-base font-semibold text-fg">{e.role[lang]} · <span class="text-fg-muted">{e.org}</span></h3>
+                <span class="font-mono text-xs text-fg-subtle">{e.period}</span>
+              </div>
+              <p class="mt-1 text-sm leading-relaxed text-fg-muted">{e.description[lang]}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="mb-4 font-mono text-[11px] uppercase tracking-[0.25em] text-accent">Stack</h2>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div>
+            <p class="mb-1 text-xs font-semibold text-fg">Frontend</p>
+            <p class="text-sm text-fg-muted">{profile.stack.frontend.join(', ')}</p>
+          </div>
+          <div>
+            <p class="mb-1 text-xs font-semibold text-fg">Backend</p>
+            <p class="text-sm text-fg-muted">{profile.stack.backend.join(', ')}</p>
+          </div>
+          <div>
+            <p class="mb-1 text-xs font-semibold text-fg">Tools</p>
+            <p class="text-sm text-fg-muted">{profile.stack.tools.join(', ')}</p>
+          </div>
+        </div>
+      </section>
+    </article>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  @media print {
+    body { background: white !important; color: black !important; }
+    .cursor-glow, header[class*="sticky"], footer, #scroll-progress { display: none !important; }
+    .text-fg, .text-fg-muted, .text-fg-subtle { color: #18181b !important; }
+    .text-accent { color: #5b21b6 !important; }
+    .bg-elevated, .bg-app { background: transparent !important; }
+    .border-app { border-color: #d4d4d8 !important; }
+  }
+</style>
+
+<script>
+  function setupPrint() {
+    const btn = document.getElementById('print-cv');
+    if (!btn || btn.dataset.bound === '1') return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', () => window.print());
+  }
+  setupPrint();
+  document.addEventListener('astro:page-load', setupPrint);
+</script>

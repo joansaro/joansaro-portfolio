@@ -1,0 +1,156 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { profile } from '../data/profile';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="contact" class="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-32">
+  <div class="absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" aria-hidden="true"></div>
+
+  <header class="reveal mx-auto mb-16 max-w-2xl text-center">
+    <p class="section-number mb-4 inline-flex justify-center font-mono text-xs uppercase tracking-[0.25em] text-accent">
+      04 / {t('nav.contact')}
+    </p>
+    <h2 class="text-balance text-4xl font-semibold tracking-[-0.03em] text-fg sm:text-5xl md:text-6xl">
+      {t('contact.title')}
+    </h2>
+    <p class="mx-auto mt-5 max-w-md text-pretty text-lg text-fg-muted">{t('contact.subtitle')}</p>
+  </header>
+
+  <div class="reveal mx-auto max-w-xl">
+    <form
+      id="contact-form"
+      data-email={profile.email}
+      class="space-y-5 rounded-2xl border border-app bg-elevated/60 p-6 backdrop-blur-sm sm:p-8"
+      novalidate
+    >
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="cf-name" class="mb-2 block font-mono text-[10px] uppercase tracking-widest text-fg-muted">
+            {t('contact.form.name')}
+          </label>
+          <input
+            id="cf-name"
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+            class="block w-full rounded-md border border-app bg-app px-3.5 py-2.5 text-sm text-fg outline-none transition-all placeholder:text-fg-subtle focus:border-accent focus:bg-elevated"
+          />
+        </div>
+        <div>
+          <label for="cf-email" class="mb-2 block font-mono text-[10px] uppercase tracking-widest text-fg-muted">
+            {t('contact.form.email')}
+          </label>
+          <input
+            id="cf-email"
+            name="email"
+            type="email"
+            required
+            autocomplete="email"
+            class="block w-full rounded-md border border-app bg-app px-3.5 py-2.5 text-sm text-fg outline-none transition-all placeholder:text-fg-subtle focus:border-accent focus:bg-elevated"
+          />
+        </div>
+      </div>
+
+      <div>
+        <label for="cf-message" class="mb-2 block font-mono text-[10px] uppercase tracking-widest text-fg-muted">
+          {t('contact.form.message')}
+        </label>
+        <textarea
+          id="cf-message"
+          name="message"
+          rows="5"
+          required
+          class="block w-full resize-y rounded-md border border-app bg-app px-3.5 py-2.5 text-sm text-fg outline-none transition-all placeholder:text-fg-subtle focus:border-accent focus:bg-elevated"
+        ></textarea>
+      </div>
+
+      <button
+        type="submit"
+        class="group inline-flex w-full items-center justify-center gap-2 rounded-lg bg-accent px-5 py-3.5 text-sm font-medium text-white shadow-lg shadow-accent/20 transition-all hover:-translate-y-0.5 hover:bg-accent-hover hover:shadow-xl hover:shadow-accent/30 disabled:opacity-60"
+      >
+        <span data-label-default>{t('contact.form.send')}</span>
+        <span data-label-sending hidden>{t('contact.form.sending')}</span>
+        <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m22 2-7 20-4-9-9-4Z"/>
+          <path d="M22 2 11 13"/>
+        </svg>
+      </button>
+
+      <p
+        id="cf-status"
+        class="hidden rounded-md border px-3 py-2.5 text-sm"
+        data-success={t('contact.form.success')}
+        data-error={t('contact.form.error')}
+      ></p>
+    </form>
+
+    <div class="mt-10 flex flex-col items-center gap-5 text-sm text-fg-muted">
+      <p class="text-center">
+        {t('contact.or')}{' '}
+        <a href={`mailto:${profile.email}`} class="link-underline font-mono text-accent">
+          {profile.email}
+        </a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupContactForm() {
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+    if (!form || form.dataset.bound === '1') return;
+    form.dataset.bound = '1';
+    init(form);
+  }
+
+  function init(form: HTMLFormElement) {
+    const status = document.getElementById('cf-status') as HTMLParagraphElement;
+    const labelDefault = form.querySelector('[data-label-default]') as HTMLElement;
+    const labelSending = form.querySelector('[data-label-sending]') as HTMLElement;
+    const successMsg = status.dataset.success ?? '';
+    const errorMsg = status.dataset.error ?? '';
+    const targetEmail = form.dataset.email ?? '';
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+      const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+      const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+      const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value.trim();
+
+      if (!name || !email || !message) {
+        status.textContent = errorMsg;
+        status.className = 'rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2.5 text-sm text-red-400';
+        return;
+      }
+
+      submitBtn.disabled = true;
+      labelDefault.hidden = true;
+      labelSending.hidden = false;
+
+      try {
+        const subject = encodeURIComponent(`Portafolio — ${name}`);
+        const body = encodeURIComponent(`${message}\n\n—\n${name}\n${email}`);
+        window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+
+        status.textContent = successMsg;
+        status.className = 'rounded-md border border-accent/30 bg-accent/10 px-3 py-2.5 text-sm text-accent';
+        form.reset();
+      } catch {
+        status.textContent = errorMsg;
+        status.className = 'rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2.5 text-sm text-red-400';
+      } finally {
+        submitBtn.disabled = false;
+        labelDefault.hidden = false;
+        labelSending.hidden = true;
+      }
+    });
+  }
+
+  setupContactForm();
+  document.addEventListener('astro:page-load', setupContactForm);
+</script>

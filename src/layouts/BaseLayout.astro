@@ -1,0 +1,166 @@
+---
+import '../styles/global.css';
+import { ClientRouter } from 'astro:transitions';
+import Nav from '../components/Nav.astro';
+import { profile } from '../data/profile';
+import BackToTop from '../components/BackToTop.astro';
+import Footer from '../components/Footer.astro';
+import ScrollProgress from '../components/ScrollProgress.astro';
+import { getLangFromUrl } from '../i18n/utils';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const altLang = lang === 'es' ? 'en' : 'es';
+const altPath = altLang === 'es'
+  ? Astro.url.pathname.replace(/^\/en/, '') || '/'
+  : `/en${Astro.url.pathname === '/' ? '' : Astro.url.pathname}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: profile.fullName,
+  url: profile.website,
+  email: `mailto:${profile.email}`,
+  jobTitle: lang === 'es' ? 'Desarrollador Full-Stack' : 'Full-Stack Developer',
+  sameAs: [profile.social.github, profile.social.linkedin],
+  address: { '@type': 'PostalAddress', addressCountry: 'SV' },
+  knowsLanguage: ['es', 'en'],
+};
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang={lang} href={canonical} />
+    <link rel="alternate" hreflang={altLang} href={new URL(altPath, Astro.site ?? Astro.url.origin).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL('/', Astro.site ?? Astro.url.origin).href} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content={new URL('/og.png', Astro.site ?? Astro.url.origin).href} />
+    <meta name="twitter:image" content={new URL('/og.png', Astro.site ?? Astro.url.origin).href} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_SV' : 'en_US'} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="theme-color" content="#09090b" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <title>{title}</title>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <ClientRouter />
+
+    <!-- Dark-only design: the dark class is permanent. -->
+    <script is:inline>
+      document.documentElement.classList.add('dark');
+      document.addEventListener('astro:after-swap', () => {
+        document.documentElement.classList.add('dark');
+      });
+    </script>
+
+    <script is:inline>
+      (function () {
+        try {
+          const path = window.location.pathname;
+          const hasLangPrefix = /^\/(es|en)(\/|$)/.test(path);
+          const stored = localStorage.getItem('preferred-lang');
+          if (hasLangPrefix) return;
+          if (stored === 'es') return;
+          if (stored === 'en' && !path.startsWith('/en')) {
+            window.location.replace('/en' + (path === '/' ? '' : path) + window.location.hash);
+            return;
+          }
+          if (stored) return;
+          const browser = (navigator.language || 'es').toLowerCase();
+          if (!browser.startsWith('es')) {
+            window.location.replace('/en' + (path === '/' ? '' : path) + window.location.hash);
+          }
+        } catch {}
+      })();
+    </script>
+  </head>
+  <body class="relative min-h-screen antialiased">
+    <a href="#top" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-3 focus:py-2 focus:text-sm focus:text-white">
+      Skip to content
+    </a>
+
+    <ScrollProgress />
+    <div id="cursor-glow" class="cursor-glow" aria-hidden="true"></div>
+
+    <Nav />
+    <main class="relative">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      function setupReveals() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: '0px 0px -60px 0px' }
+        );
+        document.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => observer.observe(el));
+      }
+
+      function setupCursorGlow() {
+        const glow = document.getElementById('cursor-glow');
+        if (!glow) return;
+        if (glow.dataset.bound === '1') return;
+        if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+        glow.dataset.bound = '1';
+
+        let x = window.innerWidth / 2;
+        let y = window.innerHeight / 2;
+        let tx = x;
+        let ty = y;
+
+        const lerp = () => {
+          x += (tx - x) * 0.18;
+          y += (ty - y) * 0.18;
+          glow.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+          requestAnimationFrame(lerp);
+        };
+
+        window.addEventListener('pointermove', (e) => {
+          tx = e.clientX;
+          ty = e.clientY;
+          if (!glow.classList.contains('is-active')) glow.classList.add('is-active');
+        }, { passive: true });
+
+        window.addEventListener('pointerleave', () => glow.classList.remove('is-active'));
+        lerp();
+      }
+
+      setupReveals();
+      setupCursorGlow();
+      document.addEventListener('astro:page-load', setupReveals);
+    </script>
+    <BackToTop />
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" style="color: rgb(139 92 246)">
+  <defs>
+    <linearGradient id="p1bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="currentColor" stop-opacity="0.06"/>
+      <stop offset="100%" stop-color="currentColor" stop-opacity="0.18"/>
+    </linearGradient>
+    <pattern id="p1grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" stroke-opacity="0.12" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#p1bg)"/>
+  <rect width="800" height="500" fill="url(#p1grid)"/>
+
+  <g transform="translate(80,70)">
+    <rect width="640" height="360" rx="14" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.35" stroke-width="1.5"/>
+
+    <circle cx="22" cy="22" r="5" fill="currentColor" fill-opacity="0.8"/>
+    <circle cx="40" cy="22" r="5" fill="currentColor" fill-opacity="0.5"/>
+    <circle cx="58" cy="22" r="5" fill="currentColor" fill-opacity="0.3"/>
+
+    <line x1="0" y1="44" x2="640" y2="44" stroke="currentColor" stroke-opacity="0.2"/>
+
+    <rect x="22" y="64" width="180" height="14" rx="3" fill="currentColor" fill-opacity="0.9"/>
+    <rect x="22" y="86" width="120" height="8" rx="3" fill="currentColor" fill-opacity="0.4"/>
+
+    <g transform="translate(22,124)">
+      <rect width="190" height="84" rx="10" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.25"/>
+      <rect x="14" y="14" width="60" height="8" rx="3" fill="currentColor" fill-opacity="0.5"/>
+      <rect x="14" y="34" width="80" height="22" rx="3" fill="currentColor" fill-opacity="0.85"/>
+      <rect x="14" y="64" width="40" height="6" rx="3" fill="currentColor" fill-opacity="0.35"/>
+    </g>
+
+    <g transform="translate(228,124)">
+      <rect width="190" height="84" rx="10" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.25"/>
+      <rect x="14" y="14" width="60" height="8" rx="3" fill="currentColor" fill-opacity="0.5"/>
+      <rect x="14" y="34" width="100" height="22" rx="3" fill="currentColor" fill-opacity="0.85"/>
+      <rect x="14" y="64" width="60" height="6" rx="3" fill="currentColor" fill-opacity="0.35"/>
+    </g>
+
+    <g transform="translate(434,124)">
+      <rect width="184" height="84" rx="10" fill="currentColor" fill-opacity="0.08" stroke="currentColor" stroke-opacity="0.25"/>
+      <rect x="14" y="14" width="60" height="8" rx="3" fill="currentColor" fill-opacity="0.5"/>
+      <rect x="14" y="34" width="70" height="22" rx="3" fill="currentColor" fill-opacity="0.85"/>
+      <rect x="14" y="64" width="50" height="6" rx="3" fill="currentColor" fill-opacity="0.35"/>
+    </g>
+
+    <g transform="translate(22,224)">
+      <rect width="596" height="120" rx="10" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.22"/>
+      <polyline points="20,90 80,60 140,75 200,45 260,55 320,30 380,40 440,20 500,35 560,10 576,18"
+                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <line x1="20" y1="60" x2="576" y2="60" stroke="currentColor" stroke-opacity="0.15" stroke-dasharray="4 4"/>
+    </g>
+  </g>
+</svg>

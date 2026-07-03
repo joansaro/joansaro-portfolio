@@ -1,0 +1,27 @@
+---
+import { getLangFromUrl } from '../i18n/utils';
+interface Props {
+  size?: number;
+  withWordmark?: boolean;
+  class?: string;
+}
+const { withWordmark = false, class: className = '' } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const home = lang === 'es' ? '/' : '/en/';
+---
+
+<a href={home} class:list={['inline-flex items-center gap-2.5 group', className]} aria-label="Joansaro — home">
+  <span
+    class="relative inline-flex h-9 items-center justify-center rounded-lg border border-strong bg-elevated px-2 transition-all duration-300 group-hover:border-accent group-hover:shadow-[0_0_24px_-8px_rgb(var(--accent-glow))]"
+  >
+    <span class="inline-flex items-center font-mono font-bold leading-none tracking-tight" aria-hidden="true">
+      <span class="text-[11px] text-accent">&lt;</span><span class="mx-px text-[19px] text-fg">J</span><span class="text-[11px] text-accent">&gt;</span>
+    </span>
+  </span>
+
+  {withWordmark && (
+    <span class="font-mono text-[15px] font-semibold tracking-tight text-fg transition-colors group-hover:text-accent">
+      Joansaro
+    </span>
+  )}
+</a>

@@ -1,0 +1,74 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { timeline } from '../data/profile';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="experience" class="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-32">
+  <div class="absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" aria-hidden="true"></div>
+
+  <header class="reveal mb-16 max-w-2xl">
+    <p class="section-number mb-4 font-mono text-xs uppercase tracking-[0.25em] text-accent">
+      02 / {t('experience.section')}
+    </p>
+    <h2 class="text-balance text-4xl font-semibold tracking-[-0.03em] text-fg sm:text-5xl md:text-6xl">
+      {t('experience.title')}
+    </h2>
+    <p class="mt-4 max-w-md text-pretty text-fg-muted">{t('experience.subtitle')}</p>
+  </header>
+
+  <ol class="relative ml-3 space-y-12 border-l border-app pl-6 sm:ml-6 sm:pl-10">
+    {
+      timeline.map((entry) => (
+        <li class="reveal group relative">
+          <span
+            class:list={[
+              'absolute -left-[33px] sm:-left-[49px] top-1 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 transition-colors',
+              entry.type === 'work'
+                ? 'border-accent bg-app'
+                : 'border-app bg-app group-hover:border-accent/50',
+            ]}
+          >
+            <span
+              class:list={[
+                'h-2 w-2 rounded-full transition-colors',
+                entry.type === 'work' ? 'bg-accent' : 'bg-fg-muted group-hover:bg-accent',
+              ]}
+            ></span>
+          </span>
+
+          <div class="rounded-xl border border-app bg-elevated/40 p-5 transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:bg-elevated sm:p-6">
+            <div class="mb-2 flex flex-wrap items-baseline gap-3">
+              <p class="font-mono text-[11px] uppercase tracking-widest text-accent">
+                {entry.period}
+              </p>
+              <span class="rounded-full border border-app px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest text-fg-subtle">
+                {entry.type === 'work' ? t('experience.work') : t('experience.education')}
+              </span>
+            </div>
+
+            <h3 class="text-xl font-semibold text-fg sm:text-2xl">
+              {entry.role[lang]}
+            </h3>
+            <p class="mt-0.5 text-sm text-fg-muted">{entry.org}</p>
+
+            <p class="mt-3 text-pretty leading-relaxed text-fg-muted">
+              {entry.description[lang]}
+            </p>
+
+            {entry.tech && (
+              <ul class="mt-4 flex flex-wrap gap-2">
+                {entry.tech.map((t) => (
+                  <li class="rounded-full border border-app bg-muted px-2.5 py-0.5 font-mono text-[11px] text-fg-muted">
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+</section>

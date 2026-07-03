@@ -1,0 +1,91 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { profile } from '../data/profile';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const stackGroups = [
+  { label: t('about.frontend'), items: profile.stack.frontend },
+  { label: t('about.backend'), items: profile.stack.backend },
+  { label: t('about.tools'), items: profile.stack.tools },
+];
+---
+
+<section id="about" class="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-32">
+  <div class="grid gap-12 md:grid-cols-[1fr_2fr] md:gap-16">
+    <header class="reveal">
+      <p class="section-number mb-4 font-mono text-xs uppercase tracking-[0.25em] text-accent">
+        01 / {t('nav.about')}
+      </p>
+      <h2 class="text-balance text-4xl font-semibold tracking-[-0.03em] text-fg sm:text-5xl md:text-6xl">
+        {t('about.title')}
+      </h2>
+
+      <div class="mt-8 hidden md:block">
+        <div class="rounded-xl border border-app bg-elevated p-5">
+          <div class="flex items-center gap-3 border-b border-app pb-3 mb-3">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m4 6 8-4 8 4"/>
+              <path d="m18 10 4 2v3"/>
+              <path d="M14 22v-4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v4"/>
+              <path d="M18 5v17"/>
+              <path d="M6 5v17"/>
+              <circle cx="12" cy="9" r="2"/>
+            </svg>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-fg-subtle">
+              {lang === 'es' ? 'Educación' : 'Education'}
+            </p>
+          </div>
+          <p class="text-sm font-medium text-fg">{profile.education[lang]}</p>
+          <p class="mt-1 font-mono text-xs text-fg-subtle">{profile.location[lang]}</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="space-y-6">
+      <div class="reveal space-y-5 text-lg leading-relaxed text-fg-muted">
+        <p class="text-pretty">{t('about.p1')}</p>
+        <p class="text-pretty">{t('about.p2')}</p>
+      </div>
+
+      <div class="reveal md:hidden">
+        <div class="rounded-xl border border-app bg-elevated p-5">
+          <div class="flex items-center gap-3 border-b border-app pb-3 mb-3">
+            <svg class="h-5 w-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m4 6 8-4 8 4"/>
+              <path d="m18 10 4 2v3"/>
+              <path d="M14 22v-4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v4"/>
+              <path d="M18 5v17"/>
+              <path d="M6 5v17"/>
+              <circle cx="12" cy="9" r="2"/>
+            </svg>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-fg-subtle">
+              {lang === 'es' ? 'Educación' : 'Education'}
+            </p>
+          </div>
+          <p class="text-sm font-medium text-fg">{profile.education[lang]}</p>
+          <p class="mt-1 font-mono text-xs text-fg-subtle">{profile.location[lang]}</p>
+        </div>
+      </div>
+
+      <div class="reveal mt-10 grid gap-6 sm:grid-cols-3">
+        {stackGroups.map((group) => (
+          <div class="group rounded-xl border border-app bg-elevated/40 p-5 transition-all hover:-translate-y-0.5 hover:border-accent/40 hover:bg-elevated">
+            <p class="mb-4 flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-fg-subtle">
+              <span class="h-1.5 w-1.5 rounded-full bg-accent/60"></span>
+              {group.label}
+            </p>
+            <ul class="space-y-1.5">
+              {group.items.map((item) => (
+                <li class="flex items-center gap-2 text-sm text-fg">
+                  <span class="text-accent">›</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

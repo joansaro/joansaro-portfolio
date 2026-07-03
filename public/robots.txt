@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://joansaro.dev/sitemap-index.xml

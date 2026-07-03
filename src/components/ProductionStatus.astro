@@ -1,0 +1,100 @@
+---
+// Mission-control style panel: real systems running in production.
+// This replaces the cliché "code card" — nobody can copy real uptime.
+import { getLangFromUrl } from '../i18n/utils';
+
+interface Props {
+  class?: string;
+}
+const { class: className = '' } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+
+const systems = [
+  {
+    name: 'jc-barber-pos',
+    desc: { es: 'POS + inventario · EE. UU.', en: 'POS + inventory · USA' },
+    meta: { es: '5 tiendas · ~15 usuarios · 5,000+ SKUs', en: '5 stores · ~15 users · 5,000+ SKUs' },
+    status: 'online',
+    href: null,
+  },
+  {
+    name: 'jcbarberstore.com',
+    desc: { es: 'E-commerce · pagos con Square', en: 'E-commerce · Square payments' },
+    meta: { es: 'WooCommerce · ventas activas', en: 'WooCommerce · active sales' },
+    status: 'online',
+    href: 'https://jcbarberstore.com',
+  },
+] as const;
+
+const statusLabel = {
+  online: { es: 'online', en: 'online' },
+  building: { es: 'en desarrollo', en: 'building' },
+};
+---
+
+<div class:list={['overflow-hidden rounded-2xl border border-app bg-elevated/60 shadow-2xl shadow-accent/5 backdrop-blur', className]}>
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-app px-5 py-3.5">
+    <span class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-fg-muted">
+      <span class="relative flex h-2 w-2">
+        <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60"></span>
+        <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-400"></span>
+      </span>
+      {lang === 'es' ? 'En producción' : 'In production'}
+    </span>
+    <span class="font-mono text-[10px] text-fg-subtle">{lang === 'es' ? 'sistemas reales' : 'real systems'}</span>
+  </div>
+
+  <!-- Systems -->
+  <ul class="divide-y divide-app/60">
+    {
+      systems.map((s) => {
+        const Row = s.href ? 'a' : 'div';
+        return (
+        <li class="group transition-colors hover:bg-muted/40">
+          <Row
+            {...(s.href ? { href: s.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
+            class="block px-5 py-4"
+          >
+          <div class="flex items-center justify-between gap-3">
+            <span class="inline-flex items-center gap-1.5 font-mono text-sm font-medium text-fg">
+              {s.name}
+              {s.href && (
+                <svg class="h-3.5 w-3.5 text-fg-subtle transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M7 17 17 7M7 7h10v10" />
+                </svg>
+              )}
+            </span>
+            <span
+              class:list={[
+                'inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-wider',
+                s.status === 'online'
+                  ? 'bg-emerald-400/10 text-emerald-400'
+                  : 'bg-accent/10 text-accent',
+              ]}
+            >
+              <span
+                class:list={[
+                  'h-1.5 w-1.5 rounded-full',
+                  s.status === 'online' ? 'bg-emerald-400' : 'animate-pulse bg-accent',
+                ]}
+              ></span>
+              {statusLabel[s.status][lang]}
+            </span>
+          </div>
+          <p class="mt-1 text-sm text-fg-muted">{s.desc[lang]}</p>
+          <p class="mt-0.5 font-mono text-[11px] text-fg-subtle">{s.meta[lang]}</p>
+          </Row>
+        </li>
+        );
+      })
+    }
+  </ul>
+
+  <!-- Footer -->
+  <div class="border-t border-app bg-muted/30 px-5 py-3">
+    <p class="font-mono text-[11px] text-fg-subtle">
+      {lang === 'es' ? '// software con usuarios reales, no demos' : '// software with real users, not demos'}
+    </p>
+  </div>
+</div>
