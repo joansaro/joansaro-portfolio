@@ -1,0 +1,169 @@
+---
+// Reusable particle background. Drop inside any `relative` section.
+// `density`: px² per particle — lower = more particles.
+interface Props {
+  class?: string;
+  density?: number;
+}
+const { class: className = '', density = 14000 } = Astro.props;
+---
+
+<canvas
+  data-particles
+  data-density={density}
+  class:list={['pointer-events-none absolute inset-0 -z-10 h-full w-full', className]}
+  aria-hidden="true"
+></canvas>
+
+<script>
+  // One engine for every [data-particles] canvas on the page.
+  // Theme-aware color, gentle cursor repulsion, pauses off-screen and on hidden tabs.
+  function setupParticles() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    let accent = '167, 139, 250';
+    const readAccent = () => {
+      const v = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+      if (v) accent = v.split(' ').join(', ');
+    };
+    readAccent();
+    if (!(document.documentElement as any).__particlesThemeObserver) {
+      (document.documentElement as any).__particlesThemeObserver = new MutationObserver(readAccent);
+      (document.documentElement as any).__particlesThemeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class'],
+      });
+    }
+
+    document.querySelectorAll<HTMLCanvasElement>('canvas[data-particles]').forEach((canvas) => {
+      if (canvas.dataset.bound === '1') return;
+      canvas.dataset.bound = '1';
+
+      const ctx = canvas.getContext('2d')!;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const density = Number(canvas.dataset.density) || 14000;
+      let width = 0;
+      let height = 0;
+      let raf = 0;
+      let inView = true;
+
+      // Cursor state (canvas-local coords)
+      let mx = -9999;
+      let my = -9999;
+      const MOUSE_R = 140;
+      const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+      type P = { x: number; y: number; vx: number; vy: number; r: number; a: number };
+      let particles: P[] = [];
+
+      const resize = () => {
+        const rect = canvas.getBoundingClientRect();
+        width = rect.width;
+        height = rect.height;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        const count = Math.min(110, Math.floor((width * height) / density));
+        particles = Array.from({ length: count }, () => ({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          r: 1 + Math.random() * 1.8,
+          a: 0.25 + Math.random() * 0.4,
+        }));
+      };
+
+      const LINK_DIST = 130;
+
+      const tick = () => {
+        ctx.clearRect(0, 0, width, height);
+
+        for (const p of particles) {
+          // Gentle push away from the cursor
+          if (hasFinePointer) {
+            const dx = p.x - mx;
+            const dy = p.y - my;
+            const d = Math.hypot(dx, dy);
+            if (d < MOUSE_R && d > 0.5) {
+              const f = ((1 - d / MOUSE_R) * 0.6) / d;
+              p.vx += dx * f * 0.06;
+              p.vy += dy * f * 0.06;
+            }
+          }
+          // Cap speed so pushes stay subtle, with slow decay back to drift
+          p.vx = Math.max(-0.9, Math.min(0.9, p.vx)) * 0.995;
+          p.vy = Math.max(-0.9, Math.min(0.9, p.vy)) * 0.995;
+
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -10) p.x = width + 10;
+          if (p.x > width + 10) p.x = -10;
+          if (p.y < -10) p.y = height + 10;
+          if (p.y > height + 10) p.y = -10;
+        }
+
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const d = Math.hypot(dx, dy);
+            if (d < LINK_DIST) {
+              ctx.strokeStyle = `rgba(${accent}, ${0.14 * (1 - d / LINK_DIST)})`;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        for (const p of particles) {
+          ctx.fillStyle = `rgba(${accent}, ${p.a})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        raf = requestAnimationFrame(tick);
+      };
+
+      const start = () => {
+        if (!raf && inView && !document.hidden) raf = requestAnimationFrame(tick);
+      };
+      const stop = () => {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      };
+
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+      new IntersectionObserver(
+        (entries) => {
+          inView = entries[0].isIntersecting;
+          inView ? start() : stop();
+        },
+        { rootMargin: '80px' },
+      ).observe(canvas);
+
+      if (hasFinePointer) {
+        window.addEventListener(
+          'pointermove',
+          (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mx = e.clientX - rect.left;
+            my = e.clientY - rect.top;
+          },
+          { passive: true },
+        );
+      }
+      window.addEventListener('resize', resize, { passive: true });
+
+      resize();
+      start();
+    });
+  }
+
+  setupParticles();
+  document.addEventListener('astro:page-load', setupParticles);
+</script>

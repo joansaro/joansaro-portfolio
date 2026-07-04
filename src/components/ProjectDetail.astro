@@ -2,6 +2,7 @@
 import type { Project } from '../data/profile';
 import type { Lang } from '../i18n/ui';
 import { useTranslations } from '../i18n/utils';
+import DeviceFrame from './DeviceFrame.astro';
 
 interface Props {
   project: Project;
@@ -11,6 +12,7 @@ interface Props {
 const { project, lang } = Astro.props;
 const t = useTranslations(lang);
 const basePath = lang === 'es' ? '' : '/en';
+const galleryItems = project.gallery.filter((src) => src !== project.cover);
 ---
 
 <article class="mx-auto max-w-5xl px-6 pt-12 pb-24">
@@ -35,8 +37,8 @@ const basePath = lang === 'es' ? '' : '/en';
         </span>
       )}
       {project.status === 'coming-soon' && (
-        <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-emerald-400">
-          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400"></span>
+        <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+          <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>
           {lang === 'es' ? 'En producción real' : 'In real production'}
         </span>
       )}
@@ -79,8 +81,8 @@ const basePath = lang === 'es' ? '' : '/en';
   </header>
 
   {project.cover && (
-    <div class="reveal mb-16 overflow-hidden rounded-2xl border border-app bg-muted">
-      <img src={project.cover} alt={project.title} class="w-full" />
+    <div class="reveal mx-auto mb-16 max-w-4xl">
+      <DeviceFrame src={project.cover} alt={project.title} kind="laptop" eager={true} />
     </div>
   )}
 
@@ -166,28 +168,27 @@ const basePath = lang === 'es' ? '' : '/en';
     </aside>
   </div>
 
-  {project.gallery.length > 0 && (
+  {galleryItems.length > 0 && (
   <section class="reveal mt-24">
     <header class="mb-6 flex items-baseline justify-between">
       <h2 class="text-2xl font-semibold tracking-tight text-fg">
         {t('projects.gallery')}
       </h2>
       <span class="font-mono text-xs text-fg-subtle">
-        ({String(project.gallery.length).padStart(2, '0')})
+        ({String(galleryItems.length).padStart(2, '0')})
       </span>
     </header>
 
-    <div class="grid gap-4 sm:grid-cols-2">
-      {project.gallery.map((src, i) => (
-        <figure class="group overflow-hidden rounded-xl border border-app bg-muted transition-all hover:-translate-y-0.5 hover:border-accent/40">
-          <img
-            src={src}
-            alt={`${project.title} — ${i + 1}`}
-            loading="lazy"
-            class="w-full transition-transform duration-700 group-hover:scale-[1.03]"
-          />
-        </figure>
-      ))}
+    <div class="grid items-start gap-x-8 gap-y-10 sm:grid-cols-2">
+      {galleryItems.map((src, i) =>
+          src.includes('mobile') ? (
+            <div class="flex justify-center">
+              <DeviceFrame src={src} alt={`${project.title} — ${i + 1}`} class="w-full max-w-[260px]" />
+            </div>
+          ) : (
+            <DeviceFrame src={src} alt={`${project.title} — ${i + 1}`} />
+          ),
+        )}
     </div>
   </section>
   )}

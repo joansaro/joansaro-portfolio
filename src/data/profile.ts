@@ -22,13 +22,16 @@ export const profile = {
     linkedin: 'https://linkedin.com/in/andr%C3%A9s-santos-b9092b182',
   },
   languages: {
-    es: [{ name: 'Español', level: 'Nativo' }, { name: 'Inglés', level: 'Intermedio (B1) — en mejora continua' }],
-    en: [{ name: 'Spanish', level: 'Native' }, { name: 'English', level: 'Intermediate (B1) — actively improving' }],
+    es: [{ name: 'Español', level: 'Nativo' }, { name: 'Inglés', level: 'Intermedio (B1) — cursando estudios formales de inglés' }],
+    en: [{ name: 'Spanish', level: 'Native' }, { name: 'English', level: 'Intermediate (B1) — currently in formal English courses' }],
   },
   stack: {
     frontend: ['React', 'TypeScript', 'Next.js', 'Astro', 'Tailwind CSS'],
-    backend: ['NestJS', 'Node.js', 'PostgreSQL', 'REST APIs'],
-    tools: ['WordPress · WooCommerce', 'Square (pagos)', 'Git · GitHub', 'Desarrollo asistido por IA'],
+    backend: ['NestJS', 'Node.js', 'PostgreSQL', 'TypeORM · Prisma', 'REST APIs · JWT'],
+    tools: {
+      es: ['WordPress · WooCommerce', 'Square (pagos)', 'Docker', 'Git · GitHub', 'POS retail: SalePro · Lightspeed · Kyte', 'Desarrollo asistido por IA'],
+      en: ['WordPress · WooCommerce', 'Square (payments)', 'Docker', 'Git · GitHub', 'Retail POS: SalePro · Lightspeed · Kyte', 'AI-assisted development'],
+    },
   },
 };
 
@@ -45,10 +48,10 @@ export const timeline: TimelineEntry[] = [
   {
     period: 'Jul 2024 — presente',
     role: { es: 'Desarrollador de Software', en: 'Software Developer' },
-    org: 'JC Barber & Beauty Supply — EE. UU.',
+    org: 'JC Barber & Beauty Supply — Florida, USA',
     description: {
-      es: 'Diseñé y construí desde cero un sistema POS e inventario a medida que centraliza las operaciones de 5 puntos de venta (~15 usuarios activos): más de 5,000 SKUs, 100+ clientes, conteo automatizado de inventario y trazabilidad. También desarrollé y lancé la tienda en línea de la empresa con pagos vía Square.',
-      en: 'Designed and built a custom POS and inventory system from scratch, centralizing operations for 5 points of sale (~15 active users): 5,000+ SKUs, 100+ clients, automated inventory counts and full traceability. Also built and launched the company’s online store with Square payments.',
+      es: 'Diseñé y construí desde cero, como único desarrollador, un POS e inventario a medida que unificó dos plataformas desconectadas (Lightspeed en tiendas, Kyte en unidades móviles) en una sola fuente de verdad para 5 puntos de venta (~15 usuarios activos): 5,000+ SKUs, 100+ clientes, conteo automatizado y trazabilidad completa. También desarrollé y lancé la tienda en línea de la empresa con pagos vía Square.',
+      en: 'Designed and built from scratch, as sole developer, a custom POS and inventory system that unified two disconnected platforms (Lightspeed in stores, Kyte in mobile units) into a single source of truth for 5 points of sale (~15 active users): 5,000+ SKUs, 100+ clients, automated counts and full traceability. Also built and launched the company’s online store with Square payments.',
     },
     tech: ['NestJS', 'React', 'TypeScript', 'PostgreSQL', 'WooCommerce', 'Square'],
     type: 'work',
@@ -56,12 +59,12 @@ export const timeline: TimelineEntry[] = [
   {
     period: 'Jul 2022 — Jul 2024',
     role: { es: 'Soporte Técnico', en: 'Technical Support' },
-    org: 'JC Barber & Beauty Supply — EE. UU.',
+    org: 'JC Barber & Beauty Supply — Florida, USA',
     description: {
-      es: 'Referente técnico del equipo: automaticé hojas de cálculo para reducir trabajo manual, gestioné facturación y depuración de datos, y capacité usuarios en Excel y sistemas internos — el primer paso hacia el software a medida.',
-      en: 'The team’s technical go-to: automated spreadsheets to cut manual work, managed invoicing and data cleanup, and trained users on Excel and internal systems — the first step toward custom software.',
+      es: 'Referente técnico del equipo: automaticé hojas de cálculo para reducir trabajo manual, gestioné facturación y depuración de datos, y capacité usuarios en Excel y sistemas retail/POS (SalePro, Lightspeed, Kyte) — el primer paso hacia el software a medida.',
+      en: 'The team’s technical go-to: automated spreadsheets to cut manual work, managed invoicing and data cleanup, and trained users on Excel and retail/POS systems (SalePro, Lightspeed, Kyte) — the first step toward custom software.',
     },
-    tech: ['Excel', 'SalePro', 'Automatización'],
+    tech: ['Excel', 'SalePro', 'Lightspeed', 'Kyte'],
     type: 'work',
   },
   {
@@ -109,6 +112,7 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: 'jugasaro-store',
+    code: 'https://github.com/joansaro/jugasaro-store',
     title: 'Jugasaro Store',
     description: {
       es: 'E-commerce full-stack con panel admin: catálogo, carrito, pedidos y gestión completa.',
@@ -120,7 +124,7 @@ export const projects: Project[] = [
     },
     tags: ['NestJS', 'Next.js 15', 'Prisma', 'PostgreSQL', 'Turborepo'],
     cover: '/shots/jugasaro-store-home.png',
-    gallery: ['/shots/jugasaro-store-home.png', '/shots/jugasaro-store-inner.png', '/shots/jugasaro-store-mobile.png'],
+    gallery: ['/shots/jugasaro-store-home.png', '/shots/jugasaro-store-inner.png', '/shots/jugasaro-store-section.png', '/shots/jugasaro-store-tablet.png', '/shots/jugasaro-store-mobile.png'],
     year: 2026,
     featured: true,
     caseStudy: {
@@ -145,6 +149,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'joansaro-contratos',
+    code: 'https://github.com/joansaro/joansaro-contratos',
     title: 'Joansaro Contratos',
     description: {
       es: 'Sistema de firma electrónica de contratos: editor de campos, firma digital y PDF con certificado.',
@@ -156,7 +161,7 @@ export const projects: Project[] = [
     },
     tags: ['Next.js 15', 'Prisma', 'SQLite', 'pdf-lib', 'Server Actions'],
     cover: '/shots/joansaro-contratos-home.png',
-    gallery: ['/shots/joansaro-contratos-home.png', '/shots/joansaro-contratos-inner.png', '/shots/joansaro-contratos-mobile.png'],
+    gallery: ['/shots/joansaro-contratos-home.png', '/shots/joansaro-contratos-inner.png', '/shots/joansaro-contratos-section.png', '/shots/joansaro-contratos-tablet.png', '/shots/joansaro-contratos-mobile.png'],
     year: 2026,
     featured: true,
     caseStudy: {
@@ -181,6 +186,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'ironhaus',
+    code: 'https://github.com/joansaro/ironhaus',
     title: 'IRONHAUS Gym',
     description: {
       es: 'Reserva de clases de gimnasio con backend real: cupos en vivo y regla de capacidad.',
@@ -192,7 +198,7 @@ export const projects: Project[] = [
     },
     tags: ['NestJS', 'React', 'TypeORM', 'PostgreSQL', 'TanStack Query'],
     cover: '/shots/ironhaus-home.png',
-    gallery: ['/shots/ironhaus-home.png', '/shots/ironhaus-inner.png', '/shots/ironhaus-mobile.png'],
+    gallery: ['/shots/ironhaus-home.png', '/shots/ironhaus-inner.png', '/shots/ironhaus-section.png', '/shots/ironhaus-tablet.png', '/shots/ironhaus-mobile.png'],
     year: 2026,
     featured: true,
     caseStudy: {
@@ -217,6 +223,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'saro-inmobiliaria',
+    code: 'https://github.com/joansaro/saro-inmobiliaria',
     title: 'SARO Inmobiliaria',
     description: {
       es: 'Portal inmobiliario con buscador y filtros en vivo, fichas por propiedad y diseño corporativo.',
@@ -228,7 +235,7 @@ export const projects: Project[] = [
     },
     tags: ['Astro', 'Tailwind', 'TypeScript', 'i18n'],
     cover: '/shots/saro-inmobiliaria-home.png',
-    gallery: ['/shots/saro-inmobiliaria-home.png', '/shots/saro-inmobiliaria-inner.png', '/shots/saro-inmobiliaria-mobile.png'],
+    gallery: ['/shots/saro-inmobiliaria-home.png', '/shots/saro-inmobiliaria-inner.png', '/shots/saro-inmobiliaria-section.png', '/shots/saro-inmobiliaria-tablet.png', '/shots/saro-inmobiliaria-mobile.png'],
     year: 2026,
     caseStudy: {
       problem: {
@@ -252,6 +259,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'crestline-fire',
+    code: 'https://github.com/joansaro/crestline-fire',
     title: 'Crestline Fire & Rescue',
     description: {
       es: 'Sitio institucional de bomberos con dashboard de llamadas y estética cívica condensada.',
@@ -263,7 +271,7 @@ export const projects: Project[] = [
     },
     tags: ['Astro', 'Tailwind', 'SVG charts', 'i18n'],
     cover: '/shots/crestline-fire-home.png',
-    gallery: ['/shots/crestline-fire-home.png', '/shots/crestline-fire-inner.png', '/shots/crestline-fire-mobile.png'],
+    gallery: ['/shots/crestline-fire-home.png', '/shots/crestline-fire-inner.png', '/shots/crestline-fire-section.png', '/shots/crestline-fire-tablet.png', '/shots/crestline-fire-mobile.png'],
     year: 2026,
     caseStudy: {
       problem: {
@@ -287,6 +295,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'navaja-barber',
+    code: 'https://github.com/joansaro/the-navaja-barber',
     title: 'The Navaja Barber',
     description: {
       es: 'Barbería de lujo: split-screen, tipografía serif, numerales romanos y reserva de citas.',
@@ -298,7 +307,7 @@ export const projects: Project[] = [
     },
     tags: ['Astro', 'Tailwind', 'Art direction', 'i18n'],
     cover: '/shots/navaja-barber-home.png',
-    gallery: ['/shots/navaja-barber-home.png', '/shots/navaja-barber-inner.png', '/shots/navaja-barber-mobile.png'],
+    gallery: ['/shots/navaja-barber-home.png', '/shots/navaja-barber-inner.png', '/shots/navaja-barber-section.png', '/shots/navaja-barber-tablet.png', '/shots/navaja-barber-mobile.png'],
     year: 2026,
     caseStudy: {
       problem: {
@@ -322,6 +331,7 @@ export const projects: Project[] = [
   },
   {
     slug: 'la-cafeteria',
+    code: 'https://github.com/joansaro/la-cafeteria',
     title: 'La Cafetería — Cafe & Bistro',
     description: {
       es: 'Cafetería editorial: nav centrado, fotos en arco, carta impresa y galería horizontal.',
@@ -333,7 +343,7 @@ export const projects: Project[] = [
     },
     tags: ['Astro', 'Tailwind', 'Editorial design', 'i18n'],
     cover: '/shots/la-cafeteria-home.png',
-    gallery: ['/shots/la-cafeteria-home.png', '/shots/la-cafeteria-inner.png', '/shots/la-cafeteria-mobile.png'],
+    gallery: ['/shots/la-cafeteria-home.png', '/shots/la-cafeteria-inner.png', '/shots/la-cafeteria-section.png', '/shots/la-cafeteria-tablet.png', '/shots/la-cafeteria-mobile.png'],
     year: 2026,
     caseStudy: {
       problem: {
@@ -359,12 +369,12 @@ export const projects: Project[] = [
     slug: 'jc-barber-system',
     title: 'JC Barber System',
     description: {
-      es: 'POS e inventario en producción real (EE. UU.): 5 puntos de venta, 5,000+ SKUs, ~15 usuarios.',
-      en: 'POS and inventory in real production (USA): 5 points of sale, 5,000+ SKUs, ~15 users.',
+      es: 'POS e inventario a medida para JC Barber & Beauty Supply (EE. UU.): 5 puntos de venta unificados, 5,000+ SKUs y ~15 usuarios activos.',
+      en: 'Custom POS & inventory for JC Barber & Beauty Supply (USA): 5 unified points of sale, 5,000+ SKUs and ~15 active users.',
     },
     longDescription: {
-      es: 'Sistema en producción que construí desde cero para JC Barber & Beauty Supply (EE. UU.): punto de venta e inventario a medida que centraliza bodega, 2 tiendas y 3 unidades móviles (~15 usuarios activos), con más de 5,000 SKUs, 100+ clientes, conteo automatizado de inventario y trazabilidad completa. Cliente React + TypeScript con Radix UI y backend NestJS + TypeORM sobre PostgreSQL.',
-      en: 'Production system I built from scratch for JC Barber & Beauty Supply (USA): a custom POS and inventory platform centralizing a warehouse, 2 stores and 3 mobile units (~15 active users), with 5,000+ SKUs, 100+ registered clients, automated inventory counts and full traceability. React + TypeScript client with Radix UI and a NestJS + TypeORM backend on PostgreSQL.',
+      es: 'Sistema en producción que construí desde cero, como único desarrollador, para JC Barber & Beauty Supply (Florida, EE. UU.): punto de venta e inventario a medida que reemplazó dos plataformas desconectadas (Lightspeed y Kyte) y centraliza bodega, 2 tiendas y 3 unidades móviles (~15 usuarios activos), con más de 5,000 SKUs, 100+ clientes, conteo automatizado de inventario y trazabilidad completa. Cliente React + TypeScript con Radix UI y backend NestJS + TypeORM sobre PostgreSQL.',
+      en: 'Production system I built from scratch, as sole developer, for JC Barber & Beauty Supply (Florida, USA): a custom POS and inventory platform that replaced two disconnected systems (Lightspeed and Kyte) and centralizes a warehouse, 2 stores and 3 mobile units (~15 active users), with 5,000+ SKUs, 100+ registered clients, automated inventory counts and full traceability. React + TypeScript client with Radix UI and a NestJS + TypeORM backend on PostgreSQL.',
     },
     tags: ['React', 'NestJS', 'TypeORM', 'PostgreSQL', 'Radix UI'],
     cover: '',
@@ -373,16 +383,16 @@ export const projects: Project[] = [
     status: 'coming-soon',
     caseStudy: {
       problem: {
-        es: 'JC Barber & Beauty Supply opera una bodega, 2 tiendas y 3 unidades móviles. Toda la operación — inventario, ventas, clientes — se llevaba con hojas de cálculo y procesos manuales: sin trazabilidad, con horas de trabajo duplicado y errores de conteo.',
-        en: 'JC Barber & Beauty Supply runs a warehouse, 2 stores and 3 mobile units. The entire operation — inventory, sales, customers — lived in spreadsheets and manual processes: no traceability, duplicated work hours and counting errors.',
+        es: 'JC Barber & Beauty Supply opera una bodega, 2 tiendas y 3 unidades móviles con dos plataformas desconectadas: Lightspeed en las tiendas y Kyte en las unidades móviles. Sin una fuente única de verdad, el inventario se descuadraba entre sucursales y encontrar un producto podía exigir revisión física.',
+        en: 'JC Barber & Beauty Supply runs a warehouse, 2 stores and 3 mobile units on two disconnected platforms: Lightspeed in the stores and Kyte in the mobile units. With no single source of truth, inventory drifted across locations and finding a product could require a physical search.',
       },
       solution: {
-        es: 'Diseñé y construí desde cero un POS e inventario a medida: cliente React + TypeScript con Radix UI y backend NestJS + TypeORM sobre PostgreSQL. Centraliza los 5 puntos de venta con ventas por código de barras, conteo automatizado de inventario, gestión de clientes y trazabilidad completa de cada movimiento.',
-        en: 'I designed and built a custom POS and inventory platform from scratch: a React + TypeScript client with Radix UI and a NestJS + TypeORM backend on PostgreSQL. It centralizes all 5 points of sale with barcode-driven sales, automated inventory counts, customer management and full traceability of every movement.',
+        es: 'Como único desarrollador, diseñé y construí desde cero un POS e inventario a medida: cliente React + TypeScript con Radix UI y backend NestJS + TypeORM sobre PostgreSQL. Unifica los 5 puntos de venta en una sola fuente de verdad, con ventas por código de barras, conteo automatizado de inventario, gestión de clientes y trazabilidad completa de cada movimiento.',
+        en: 'As sole developer, I designed and built a custom POS and inventory platform from scratch: a React + TypeScript client with Radix UI and a NestJS + TypeORM backend on PostgreSQL. It unifies all 5 points of sale into a single source of truth, with barcode-driven sales, automated inventory counts, customer management and full traceability of every movement.',
       },
       outcome: {
-        es: 'El sistema corre la operación diaria completa de la empresa: 5 puntos de venta, ~15 usuarios activos, más de 5,000 SKUs y 100+ clientes registrados. El código es privado, pero el sistema está en producción real desde 2025.',
-        en: 'The system runs the company’s entire daily operation: 5 points of sale, ~15 active users, 5,000+ SKUs and 100+ registered customers. The code is private, but the system has been in real production since 2025.',
+        es: 'El sistema corre la operación diaria completa de la empresa: 5 puntos de venta, ~15 usuarios activos, más de 5,000 SKUs y 100+ clientes registrados. Las búsquedas que antes exigían revisión física hoy son instantáneas. El código es privado, pero el sistema está en producción real desde 2025.',
+        en: 'The system runs the company’s entire daily operation: 5 points of sale, ~15 active users, 5,000+ SKUs and 100+ registered customers. Lookups that used to require a physical search are now instant. The code is private, but the system has been in real production since 2025.',
       },
       metrics: [
         { value: '5', label: { es: 'Puntos de venta', en: 'Points of sale' } },
@@ -405,7 +415,7 @@ export const projects: Project[] = [
     tags: ['WooCommerce', 'WordPress', 'Square', 'PHP'],
     demo: 'https://jcbarberstore.com',
     cover: '/shots/jcbarberstore-home.png',
-    gallery: ['/shots/jcbarberstore-home.png', '/shots/jcbarberstore-mobile.png'],
+    gallery: ['/shots/jcbarberstore-home.png', '/shots/jcbarberstore-shop.png', '/shots/jcbarberstore-product.png', '/shots/jcbarberstore-tablet.png', '/shots/jcbarberstore-mobile.png'],
     year: 2025,
     status: 'coming-soon',
     caseStudy: {

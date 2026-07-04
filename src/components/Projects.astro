@@ -12,12 +12,21 @@ const upcoming = projects.filter((p) => p.status === 'coming-soon');
 const inProduction = lang === 'es' ? 'Proyecto real' : 'Real project';
 ---
 
-<section id="projects" class="relative mx-auto max-w-6xl scroll-mt-20 px-6 py-32">
+<section id="projects" class="relative mx-auto max-w-6xl scroll-mt-20 overflow-x-clip px-6 py-32">
   <div class="absolute inset-x-0 top-0 -z-10 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" aria-hidden="true"></div>
+  <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+    <svg class="absolute bottom-20 left-2 h-44 w-60" viewBox="0 0 240 180" fill="none">
+      <path d="M20 140 L70 90 L128 118 L170 40 L216 66" stroke="rgb(var(--accent) / 0.15)" stroke-width="1" />
+      <circle cx="20" cy="140" r="2.5" fill="rgb(var(--accent) / 0.4)" />
+      <circle cx="70" cy="90" r="3.5" fill="rgb(var(--accent) / 0.5)" />
+      <circle cx="128" cy="118" r="2" fill="rgb(var(--accent) / 0.3)" />
+      <circle cx="170" cy="40" r="3" fill="rgb(var(--accent) / 0.45)" />
+      <circle cx="216" cy="66" r="2" fill="rgb(var(--text-subtle) / 0.5)" />
+    </svg>
+  </div>
 
   <header class="reveal mb-16 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
     <div class="max-w-2xl">
-      <p class="section-number mb-4 font-mono text-xs uppercase tracking-[0.25em] text-accent">03 / {t('nav.projects')}</p>
       <h2 class="text-balance text-4xl font-semibold tracking-[-0.03em] text-fg sm:text-5xl md:text-6xl">
         {t('projects.title')}
       </h2>
@@ -37,12 +46,12 @@ const inProduction = lang === 'es' ? 'Proyecto real' : 'Real project';
       <ul class="grid gap-6 md:grid-cols-2">
         {
           upcoming.map((p) => (
-            <li class="reveal relative overflow-hidden rounded-2xl border border-dashed border-strong bg-elevated/20 p-6">
+            <li class="reveal relative overflow-hidden rounded-2xl border border-dashed border-strong bg-elevated/20 p-6 transition-all duration-300 hover:border-accent/40 hover:bg-elevated/70">
               <div class="mb-3 flex items-center justify-between gap-3">
                 <span
                   class:list={[
                     'rounded-full px-3 py-1 font-mono text-[11px] uppercase tracking-widest',
-                    p.demo ? 'bg-emerald-400/10 text-emerald-400' : 'bg-accent/10 text-accent',
+                    p.demo ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 'bg-accent/10 text-accent',
                   ]}
                 >
                   {p.demo ? (lang === 'es' ? 'En línea' : 'Live') : (lang === 'es' ? 'Código privado' : 'Private code')}
@@ -60,27 +69,22 @@ const inProduction = lang === 'es' ? 'Proyecto real' : 'Real project';
                   </li>
                 ))}
               </ul>
-              <div class="mt-5 flex flex-wrap items-center gap-5">
+              <div class="mt-6 flex flex-wrap items-center gap-3">
                 <a
                   href={`${basePath}/projects/${p.slug}`}
-                  class="group inline-flex items-center gap-1.5 font-mono text-sm text-accent transition-colors hover:text-accent-soft"
+                  class="inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white shadow-md shadow-accent/20 transition-all hover:-translate-y-0.5 hover:bg-accent-hover"
                 >
                   {lang === 'es' ? 'Ver caso de estudio' : 'View case study'}
-                  <svg class="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 12h14M13 5l7 7-7 7" />
-                  </svg>
                 </a>
                 {p.demo && (
                   <a
                     href={p.demo}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="group inline-flex items-center gap-1.5 font-mono text-sm text-fg-muted transition-colors hover:text-accent"
+                    class="inline-flex items-center gap-2 rounded-lg border border-strong px-5 py-2.5 text-sm font-medium text-fg transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
                   >
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
                     {lang === 'es' ? 'Ver sitio' : 'Visit site'}
-                    <svg class="h-3.5 w-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <path d="M7 17 17 7M7 7h10v10" />
-                    </svg>
                   </a>
                 )}
               </div>
@@ -96,17 +100,18 @@ const inProduction = lang === 'es' ? 'Proyecto real' : 'Real project';
   </p>
   <ul class="space-y-6">
     {
-      apps.map((p, i) => (
+      apps.map((p) => (
         <li class="reveal group">
-          <a
-            href={`${basePath}/projects/${p.slug}`}
-            class="relative flex flex-col gap-6 overflow-hidden rounded-2xl border border-app bg-elevated/40 p-5 transition-all duration-500 hover:border-accent/60 hover:bg-elevated md:flex-row md:items-center md:gap-8 md:p-6"
-          >
+          <div class="relative flex flex-col gap-6 overflow-hidden rounded-2xl border border-app bg-elevated/40 p-5 transition-all duration-500 hover:border-accent/60 hover:bg-elevated md:flex-row md:items-center md:gap-8 md:p-6">
             <span class="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true">
               <span class="absolute inset-0 bg-gradient-to-br from-accent/8 via-transparent to-transparent"></span>
             </span>
 
-            <div class="relative aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl border border-app bg-muted md:w-[44%]">
+            <a
+              href={`${basePath}/projects/${p.slug}`}
+              class="relative block aspect-[16/10] w-full shrink-0 overflow-hidden rounded-xl border border-app bg-muted md:w-[44%]"
+              aria-label={p.title}
+            >
               <img
                 src={p.cover}
                 alt={p.title}
@@ -115,17 +120,15 @@ const inProduction = lang === 'es' ? 'Proyecto real' : 'Real project';
                 class="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
               />
               <div class="pointer-events-none absolute inset-0 bg-gradient-to-tr from-app/40 via-transparent to-transparent" aria-hidden="true"></div>
-            </div>
+            </a>
 
             <div class="flex flex-1 flex-col">
-              <div class="mb-3 flex items-baseline gap-3 font-mono text-xs text-fg-subtle">
-                <span class="text-accent">{String(i + 1).padStart(2, '0')}</span>
-                <span class="h-px flex-1 bg-app"></span>
-                <span>{p.year}</span>
-              </div>
+              <p class="mb-3 font-mono text-xs text-fg-subtle">{p.year}</p>
 
-              <h3 class="mb-3 text-2xl font-semibold tracking-tight text-fg transition-colors group-hover:text-accent sm:text-3xl">
-                {p.title}
+              <h3 class="mb-3 text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
+                <a href={`${basePath}/projects/${p.slug}`} class="transition-colors group-hover:text-accent">
+                  {p.title}
+                </a>
               </h3>
 
               <p class="mb-5 max-w-xl text-pretty text-fg-muted">
@@ -140,16 +143,38 @@ const inProduction = lang === 'es' ? 'Proyecto real' : 'Real project';
                 ))}
               </ul>
 
-              <div class="mt-auto flex items-center justify-between">
-                <span class="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-accent">
+              <div class="mt-auto flex flex-wrap items-center gap-3">
+                <a
+                  href={`${basePath}/projects/${p.slug}`}
+                  class="inline-flex items-center rounded-lg bg-accent px-5 py-2.5 text-sm font-medium text-white shadow-md shadow-accent/20 transition-all hover:-translate-y-0.5 hover:bg-accent-hover"
+                >
                   {t('projects.viewMore')}
-                  <svg class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M5 12h14M13 5l7 7-7 7"/>
-                  </svg>
-                </span>
+                </a>
+                {p.demo && (
+                  <a
+                    href={p.demo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 rounded-lg border border-strong px-5 py-2.5 text-sm font-medium text-fg transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
+                  >
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M7 7h10v10" /></svg>
+                    {t('projects.viewDemo')}
+                  </a>
+                )}
+                {p.code && (
+                  <a
+                    href={p.code}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 rounded-lg border border-strong px-5 py-2.5 text-sm font-medium text-fg transition-all hover:-translate-y-0.5 hover:border-accent hover:text-accent"
+                  >
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.17c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.75 2.69 1.25 3.34.95.1-.74.4-1.25.72-1.53-2.55-.29-5.23-1.28-5.23-5.68 0-1.25.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.78 0c2.21-1.49 3.18-1.18 3.18-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.35.77 1.05.77 2.12v3.14c0 .3.21.67.8.55A11.51 11.51 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"/></svg>
+                    {t('projects.viewCode')}
+                  </a>
+                )}
               </div>
             </div>
-          </a>
+          </div>
         </li>
       ))
     }

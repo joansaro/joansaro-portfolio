@@ -24,9 +24,9 @@ export const ui = {
 
     'about.title': 'Sobre mí',
     'about.p1':
-      'Soy Andrés Santos, Ingeniero en Sistemas Informáticos (UES, 2021) con más de 4 años en tecnología y más de 2 construyendo software a medida de punta a punta: SaaS, POS y e-commerce. Actualmente desarrollo para una empresa en Estados Unidos, donde diseñé y puse en producción un sistema POS e inventario que da servicio a 5 puntos de venta.',
+      'Soy Andrés Santos, Ingeniero en Sistemas Informáticos (UES, 2021) con más de 4 años en tecnología y más de 2 construyendo software a medida de punta a punta: SaaS, POS y e-commerce. Actualmente desarrollo para una empresa en Estados Unidos, donde como único desarrollador diseñé y puse en producción un sistema POS e inventario que da servicio a 5 puntos de venta.',
     'about.p2':
-      'Soy fundador de Jugasaro, una plataforma SaaS multi-tenant para barberías y proveedores de belleza. Me especializo en NestJS, React, TypeScript y PostgreSQL, y disfruto transformar procesos manuales en software automatizado y escalable.',
+      'Para JC Barber & Beauty Supply creé la plataforma que hoy opera sus 5 puntos de venta y lancé su tienda en línea. Me especializo en NestJS, React, TypeScript y PostgreSQL, y disfruto transformar procesos manuales en software automatizado y escalable.',
     'about.stack': 'Stack',
     'about.frontend': 'Frontend',
     'about.backend': 'Backend',
@@ -91,7 +91,7 @@ export const ui = {
     'cv.print': 'Imprimir / Guardar como PDF',
     'cv.summary': 'Resumen',
     'cv.summaryText':
-      'Desarrollador full-stack con más de 4 años en tecnología y más de 2 construyendo software a medida (SaaS, POS, e-commerce). Diseñé y puse en producción un sistema POS e inventario para 5 puntos de venta en EE. UU. Fundador de Jugasaro, plataforma SaaS multi-tenant. Especializado en NestJS, React, TypeScript y PostgreSQL.',
+      'Desarrollador full-stack con más de 4 años en tecnología y más de 2 construyendo software en producción para una empresa de EE. UU. Diseñé y puse en producción un sistema POS e inventario para 5 puntos de venta, y desarrollé soluciones de e-commerce en WooCommerce. Especializado en NestJS, React, TypeScript y PostgreSQL.',
     'cv.contact': 'Contacto',
     'cv.back': 'Volver al sitio',
   },
@@ -112,9 +112,9 @@ export const ui = {
 
     'about.title': 'About me',
     'about.p1':
-      "I'm Andrés Santos, a Systems Engineer (UES, 2021) with 4+ years in tech and 2+ years building end-to-end custom software: SaaS, POS and e-commerce. I currently develop for a US-based company, where I designed and shipped a POS and inventory system serving 5 points of sale.",
+      "I'm Andrés Santos, a Systems Engineer (UES, 2021) with 4+ years in tech and 2+ years building end-to-end custom software: SaaS, POS and e-commerce. I currently develop for a US-based company, where as the sole developer I designed and shipped a POS and inventory system serving 5 points of sale.",
     'about.p2':
-      "I'm the founder of Jugasaro, a multi-tenant SaaS platform for barbershops and beauty suppliers. I specialize in NestJS, React, TypeScript and PostgreSQL, and I love turning manual processes into automated, scalable software.",
+      "For JC Barber & Beauty Supply I built the platform that now runs its 5 points of sale, and launched its online store. I specialize in NestJS, React, TypeScript and PostgreSQL, and I love turning manual processes into automated, scalable software.",
     'about.stack': 'Stack',
     'about.frontend': 'Frontend',
     'about.backend': 'Backend',
@@ -179,7 +179,7 @@ export const ui = {
     'cv.print': 'Print / Save as PDF',
     'cv.summary': 'Summary',
     'cv.summaryText':
-      'Full-stack developer with 4+ years in tech and 2+ years building end-to-end custom software (SaaS, POS, e-commerce). Designed and shipped a POS and inventory system serving 5 US points of sale. Founder of Jugasaro, a multi-tenant SaaS platform. Specialized in NestJS, React, TypeScript and PostgreSQL.',
+      'Full-stack developer with 4+ years in tech and 2+ years building production software for a US-based company. Designed and shipped a POS and inventory system serving 5 points of sale, and delivered e-commerce solutions on WooCommerce. Specialized in NestJS, React, TypeScript and PostgreSQL.',
     'cv.contact': 'Contact',
     'cv.back': 'Back to site',
   },

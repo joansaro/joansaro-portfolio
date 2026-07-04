@@ -1,0 +1,36 @@
+---
+// Screenshot presented inside a device mockup. Kind is inferred from the
+// filename (-mobile → phone, -tablet → tablet, anything else → laptop)
+// unless passed explicitly.
+interface Props {
+  src: string;
+  alt: string;
+  kind?: 'laptop' | 'tablet' | 'phone';
+  class?: string;
+  eager?: boolean;
+}
+const { src, alt, kind: kindProp, class: className = '', eager = false } = Astro.props;
+const kind =
+  kindProp ?? (src.includes('mobile') ? 'phone' : src.includes('tablet') ? 'tablet' : 'laptop');
+---
+
+{kind === 'laptop' && (
+  <figure class:list={['device-laptop', className]}>
+    <div class="device-laptop-screen">
+      <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" class="w-full" />
+    </div>
+    <div class="device-laptop-base" aria-hidden="true"></div>
+  </figure>
+)}
+
+{kind === 'tablet' && (
+  <figure class:list={['device-tablet', className]}>
+    <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" class="w-full" />
+  </figure>
+)}
+
+{kind === 'phone' && (
+  <figure class:list={['device-phone', className]}>
+    <img src={src} alt={alt} loading={eager ? 'eager' : 'lazy'} decoding="async" class="w-full" />
+  </figure>
+)}

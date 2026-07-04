@@ -61,7 +61,7 @@ const jsonLd = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
@@ -69,12 +69,20 @@ const jsonLd = {
 
     <ClientRouter />
 
-    <!-- Dark-only design: the dark class is permanent. -->
+    <!-- Theme: stored preference > system preference. Runs before paint to avoid flash. -->
     <script is:inline>
-      document.documentElement.classList.add('dark');
-      document.addEventListener('astro:after-swap', () => {
-        document.documentElement.classList.add('dark');
-      });
+      (function () {
+        function applyTheme() {
+          let dark = true;
+          try {
+            const stored = localStorage.getItem('theme');
+            dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+          } catch {}
+          document.documentElement.classList.toggle('dark', dark);
+        }
+        applyTheme();
+        document.addEventListener('astro:after-swap', applyTheme);
+      })();
     </script>
 
     <script is:inline>

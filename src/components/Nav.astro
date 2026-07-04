@@ -1,5 +1,6 @@
 ---
 import LangToggle from './LangToggle.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import Logo from './Logo.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import { profile } from '../data/profile';
@@ -46,7 +47,8 @@ const contact = { href: `${basePath}/#contact`, label: t('nav.contact') };
         {contact.label}
       </a>
 
-      <div class="hidden sm:flex sm:items-center">
+      <div class="hidden sm:flex sm:items-center sm:gap-2">
+        <ThemeToggle />
         <LangToggle />
       </div>
 
@@ -138,7 +140,10 @@ const contact = { href: `${basePath}/#contact`, label: t('nav.contact') };
           </span>
           {t('contact.cta')}
         </p>
-        <LangToggle />
+        <div class="flex items-center gap-2">
+          <ThemeToggle />
+          <LangToggle />
+        </div>
       </div>
     </div>
   </div>
